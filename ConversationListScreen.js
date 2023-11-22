@@ -9,9 +9,38 @@ const ConversationListScreen = ({ navigation }) => {
 
   // Dummy conversation data (replace with your data)
   const conversations = [
-    { id: '1', name: 'John Doe', lastMessage: 'Hello there!', businessName: 'Business A', imageUrl: 'https://example.com/placeholder-image.jpg', city: 'Paris', businesstype: "restaurant" },
+    { id: '1', name: 'John Doe', lastMessage: 'Hello there!', businessName: 'The perfect restaurant', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Seine_and_Eiffel_Tower_from_Tour_Saint_Jacques_2013-08.JPG', city: 'Paris', businesstype: "restaurant" },
     { id: '2', name: 'Jane Smith', lastMessage: 'How are you?', businessName: 'Business B', imageUrl: null, city: 'New York', businesstype: "museum" },
-    // Add more conversations as needed
+    {
+        id: '3',
+        name: 'Alex Martin',
+        lastMessage: 'Any updates?',
+        businessName: 'Cafe de Paris',
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Seine_and_Eiffel_Tower_from_Tour_Saint_Jacques_2013-08.JPG', // Image of Paris at night
+        city: 'Paris',
+        businessType: 'cafe',
+        
+      },
+      {
+        id: '4',
+        name: 'Lucy Dupont',
+        lastMessage: 'Thank you!',
+        businessName: 'Paris Boutique',
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Seine_and_Eiffel_Tower_from_Tour_Saint_Jacques_2013-08.JPG', // Image of Eiffel Tower view
+        city: 'Paris',
+        businessType: 'retail',
+        
+      },
+
+      {
+        id: '5',
+        name: 'Maxime Lefevre',
+        lastMessage: 'Looking forward to our collaboration.',
+        businessName: 'Lefevre Art Gallery',
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Seine_and_Eiffel_Tower_from_Tour_Saint_Jacques_2013-08.JPG', // Image of Eiffel Tower and surroundings
+        city: 'Paris',
+        businessType: 'art gallery',
+      }
   ];
 
   const filteredConversations = conversations.filter(conversation =>

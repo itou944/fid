@@ -1,9 +1,13 @@
-import React, { useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, Animated, Easing } from 'react-native';
+import React, { useRef ,useEffect} from 'react';
+import { View, Text, StyleSheet, Animated, TouchableOpacity } from 'react-native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome5'; 
 
 const ScansScreen = () => {
   const scaleValue = useRef(new Animated.Value(1)).current;
   const fadeValue = useRef(new Animated.Value(0)).current;
+  const colorValue = useRef(new Animated.Value(0)).current;
+  const tickScale = useRef(new Animated.Value(1)).current;
+
 
   useEffect(() => {
     startWelcomeAnimation();
@@ -13,53 +17,63 @@ const ScansScreen = () => {
     Animated.parallel([
       Animated.timing(fadeValue, {
         toValue: 1,
-        duration: 100,
-        useNativeDriver: false,
-        easing: Easing.inOut(Easing.ease),
+        duration: 500,
+        useNativeDriver: true,
       }),
       Animated.timing(scaleValue, {
+        toValue: 1.05,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
+
+  const handleTickPress = () => {
+    Animated.sequence([
+      Animated.timing(tickScale, {
         toValue: 1.2,
         duration: 100,
-        useNativeDriver: false,
-        easing: Easing.inOut(Easing.ease),
+        useNativeDriver: true,
       }),
-    ]).start(() => {
-      // Automatically start the tap to win animation after the welcome animation
-      startTapToWinAnimation();
-    });
+      Animated.timing(tickScale, {
+        toValue: 1,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+    ]).start();
   };
 
-  const startTapToWinAnimation = () => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(scaleValue, {
-          toValue: 1.3,
-          duration: 3000,
-          useNativeDriver: false,
-          easing: Easing.inOut(Easing.ease),
-        }),
-        Animated.timing(scaleValue, {
-          toValue: 1,
-          duration: 3000,
-          useNativeDriver: false,
-          easing: Easing.inOut(Easing.ease),
-        }),
-      ]),
-    ).start();
-  };
+  
+ 
 
-  return (
-    <View style={styles.container}>
-        <Text style={styles.welcomeText}>Welcome back, John</Text>
-     
-      <Animated.View style={[styles.card, { transform: [{ scale: scaleValue }], opacity: fadeValue }]}>
-        
-        <Text style={styles.balanceText}>Actual balance: 10 fidizz</Text>
-      </Animated.View>
-      <Text style={styles.tapToWinText}>Tap to win fidizz</Text>
-    </View>
-  );
-};
+  const interpolatedColor = colorValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['#4CAF50', '#FFC107'], // Green to Amber
+  });
+
+ 
+
+    return (
+        <View style={styles.container}>
+          <TouchableOpacity onPress={handleTickPress}>
+            <Animated.View style={{ transform: [{ scale: tickScale }] }}>
+              <FontAwesome name="check" size={30} color="green" />
+            </Animated.View>
+          </TouchableOpacity>
+    
+          <Text style={styles.welcomeText}>Welcome back, John</Text>
+    
+          <Animated.View style={[styles.card, { transform: [{ scale: scaleValue }], opacity: fadeValue }]}>
+            <Text style={styles.welcomeText}>John</Text>
+            <Text style={styles.balanceText}>Actual balance:</Text>
+            <Text style={styles.balanceText2}>10 fidizz</Text>
+          </Animated.View>
+    
+          <Text style={styles.tapToWinText}>Scan your phone on the shop tab win fidizz</Text>
+        </View>
+      );
+    };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -70,7 +84,7 @@ const styles = StyleSheet.create({
   card: {
     width: 300,
     height: 180,
-    backgroundColor: '#C0C0C0', // Silver color
+    backgroundColor: '#007bff', // Green color (change as needed)
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
@@ -80,9 +94,19 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
   },
+  nfcLogo: {
+    width: 50,
+    height: 50,
+    marginBottom: 10,
+    borderRadius:25,
+  },
   welcomeText: {
     fontSize: 18,
     fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  scanMessage: {
+    fontSize: 16,
     marginBottom: 10,
   },
   balanceText: {
@@ -93,6 +117,34 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#007bff', // Blue color
+  },
+  tickCircle: {
+    marginTop: 20,
+    width: 50,
+    height: 50,
+    borderRadius: 25, // Half of width and height to make it circular
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 3,
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    shadowOffset: { width: 0, height: 2 },
+  },
+  tickText: {
+    color: 'white',
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+ 
+  balanceText2: {
+    fontSize: 36,                
+    fontWeight: '600',           
+    color: '#333333',            
+    marginTop: 15,              
+    marginBottom: 15,          
+    textAlign: 'center',          
+    letterSpacing: 1,        
+    fontFamily: 'Arial',         
   },
 });
 
